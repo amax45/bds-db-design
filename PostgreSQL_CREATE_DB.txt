@@ -1,0 +1,274 @@
+DROP TABLE IF EXISTS region;
+DROP TABLE IF EXISTS match_has_winner;
+DROP TABLE IF EXISTS "match" ;
+DROP TABLE IF EXISTS "admin" ;
+DROP TABLE IF EXISTS type_of_match ;
+DROP TABLE IF EXISTS type_of_competition ;
+DROP TABLE IF EXISTS place_of_match ;
+DROP TABLE IF EXISTS player_has_position ;
+DROP TABLE IF EXISTS "position" ;
+DROP TABLE IF EXISTS trainer ;
+DROP TABLE IF EXISTS type_of_trainer ;
+DROP TABLE IF EXISTS player ;
+DROP TABLE IF EXISTS division ;
+DROP TABLE IF EXISTS nationality ;
+DROP TABLE IF EXISTS "server" ;
+DROP TABLE IF EXISTS team ;
+
+
+CREATE TABLE IF NOT EXISTS region (
+  region_id serial NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  founded_year INT NULL,
+  PRIMARY KEY (region_id));
+  CREATE UNIQUE INDEX idRegion_UNIQUE ON region(region_id);
+  
+  
+CREATE TABLE IF NOT EXISTS team (
+  team_id serial NOT NULL,
+  "name" VARCHAR(45) NOT NULL,
+  logo VARCHAR(255) NOT NULL,
+  created TIMESTAMP NOT NULL,
+  twitter VARCHAR(255) NULL,
+  region_id INT NOT NULL,
+  PRIMARY KEY (team_id, region_id),
+  CONSTRAINT fk_Team_Region1
+    FOREIGN KEY (region_id)
+    REFERENCES region (region_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+CREATE UNIQUE INDEX idTeam_UNIQUE ON team(team_id ASC);
+CREATE INDEX fk_Team_Region1_idx ON region(region_id ASC);
+
+
+CREATE TABLE IF NOT EXISTS "server" (
+  server_id serial NOT NULL,
+  "name" VARCHAR(45) NOT NULL,
+  PRIMARY KEY (server_id));
+CREATE UNIQUE INDEX idPlayer_has_server_UNIQUE ON server(server_id ASC);
+
+
+
+CREATE TABLE IF NOT EXISTS nationality (
+  nationality_id serial NOT NULL,
+  "name" VARCHAR(45) NOT NULL,
+  "flag" VARCHAR(255) NOT NULL,
+  PRIMARY KEY (nationality_id));
+CREATE UNIQUE INDEX idNationality_UNIQUE ON nationality(nationality_id ASC);
+  
+
+
+CREATE TABLE IF NOT EXISTS division (
+  division_id serial NOT NULL,
+  "name" VARCHAR(45) NULL,
+  PRIMARY KEY (division_id));
+CREATE UNIQUE INDEX division_id_UNIQUE ON division(division_id ASC);
+
+
+
+
+CREATE TABLE IF NOT EXISTS player (
+  player_id serial NOT NULL,
+  nickname VARCHAR(45) NOT NULL,
+  given_name VARCHAR(45) NOT NULL,
+  family_name VARCHAR(45) NOT NULL,
+  age INT NOT NULL,
+  division_id INT NOT NULL,
+  amount_of_lp INT NOT NULL,
+  team_id INT NOT NULL,
+  server_id INT NOT NULL,
+  nationality_id INT NOT NULL,
+  PRIMARY KEY (player_id, division_id, team_id, server_id, nationality_id),
+  CONSTRAINT fk_Player_Team1
+    FOREIGN KEY (team_id)
+    REFERENCES team (team_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Player_Server1
+    FOREIGN KEY (server_id)
+    REFERENCES "server" (server_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_player_nationality1
+    FOREIGN KEY (nationality_id)
+    REFERENCES nationality (nationality_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_player_division1
+    FOREIGN KEY (division_id)
+    REFERENCES division (division_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+CREATE UNIQUE INDEX ID_Player_UNIQUE ON player(player_id ASC);
+CREATE INDEX fk_Player_Team1_idx ON team(team_id);
+CREATE INDEX fk_Player_Server1_idx ON "server"(server_id);
+CREATE INDEX fk_player_nationality1_idx ON nationality(nationality_id);
+CREATE INDEX fk_player_division1_idx ON division(division_id);
+
+
+
+CREATE TABLE IF NOT EXISTS type_of_trainer (
+  type_of_trainer_id serial NOT NULL,
+  "type" VARCHAR(45) NOT NULL,
+  note VARCHAR(60) NULL,
+  PRIMARY KEY (type_of_trainer_id));
+
+
+
+CREATE TABLE IF NOT EXISTS trainer (
+  trainer_id serial NOT NULL,
+  nickname VARCHAR(45) NOT NULL,
+  given_name VARCHAR(45) NOT NULL,
+  family_name VARCHAR(45) NOT NULL,
+  age INT NOT NULL,
+  nationality_id INT NOT NULL,
+  team_id INT NOT NULL,
+  type_of_trainer_id INT NOT NULL,
+  PRIMARY KEY (trainer_id, nationality_id, type_of_trainer_id),
+  CONSTRAINT fk_Trainer_Nationality1
+    FOREIGN KEY (nationality_id)
+    REFERENCES nationality (nationality_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Trainer_Type_of_trainer1
+    FOREIGN KEY (type_of_trainer_id)
+    REFERENCES type_of_trainer (type_of_trainer_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_trainer_team1
+    FOREIGN KEY (team_id)
+    REFERENCES team (team_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+	
+CREATE UNIQUE INDEX idTrainer_UNIQUE ON trainer(trainer_id ASC);
+CREATE INDEX fk_Trainer_Nationality1_idx ON nationality(nationality_id ASC);
+CREATE INDEX fk_Trainer_Type_of_trainer1_idx ON type_of_trainer(type_of_trainer_id ASC);
+CREATE INDEX fk_trainer_team1_idx ON team(team_id ASC);
+
+
+CREATE TABLE IF NOT EXISTS "position" (
+  position_id serial NOT NULL,
+  "name" VARCHAR(45) NULL,
+  PRIMARY KEY ("position_id"));
+CREATE UNIQUE INDEX idPosition_UNIQUE ON position(position_id ASC);
+
+
+
+CREATE TABLE IF NOT EXISTS player_has_position (
+  player_id INT NOT NULL,
+  position_id INT NOT NULL,
+  start_date TIMESTAMP NULL,
+  end_date TIMESTAMP NULL,
+  PRIMARY KEY (player_id, position_id),
+  CONSTRAINT fk_Player_has_Position_Player1
+    FOREIGN KEY (player_id)
+    REFERENCES player (player_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Player_has_Position_Position1
+    FOREIGN KEY (position_id)
+    REFERENCES position (position_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+CREATE INDEX fk_Player_has_Position_Position1_idx ON "position"(position_id ASC);
+CREATE INDEX fk_Player_has_Position_Player1_idx ON player(player_id ASC);
+
+
+
+CREATE TABLE IF NOT EXISTS place_of_match (
+  place_of_match_id serial NOT NULL,
+  arena_name VARCHAR(45) NOT NULL,
+  PRIMARY KEY (place_of_match_id));
+CREATE UNIQUE INDEX idPlace_of_match_UNIQUE ON place_of_match(place_of_match_id ASC);
+
+
+
+CREATE TABLE IF NOT EXISTS type_of_competition (
+  type_of_competition_id serial NOT NULL,
+  "name" VARCHAR(45) NOT NULL,
+  PRIMARY KEY (type_of_competition_id));
+CREATE UNIQUE INDEX idType_of_competition_UNIQUE ON type_of_competition(type_of_competition_id ASC);
+
+
+
+CREATE TABLE IF NOT EXISTS type_of_match (
+  type_of_match_id serial NOT NULL,
+  "type" VARCHAR(45) NOT NULL,
+  PRIMARY KEY (type_of_match_id));
+
+
+
+CREATE TABLE IF NOT EXISTS "admin" (
+  admin_id serial NOT NULL ,
+  nickname VARCHAR(45) NOT NULL,
+  email VARCHAR(45) NOT NULL,
+  password VARCHAR(45) NOT NULL,
+  given_name VARCHAR(45) NOT NULL,
+  family_name VARCHAR(45) NOT NULL,
+  PRIMARY KEY (admin_id));
+CREATE UNIQUE INDEX admin_id_UNIQUE ON "admin"(admin_id ASC);
+
+
+CREATE TABLE IF NOT EXISTS "match" (
+  match_id serial NOT NULL,
+  team_id1 INT NOT NULL,
+  team_id2 INT NOT NULL,
+  time_of_match TIMESTAMP NOT NULL,
+  type_of_competition_id INT NOT NULL,
+  place_of_match_id INT NOT NULL,
+  type_of_match_id INT NOT NULL,
+  admin_id INT NOT NULL,
+  PRIMARY KEY (match_id, team_id1, team_id2, type_of_competition_id, place_of_match_id, type_of_match_id, admin_id),
+  CONSTRAINT fk_Match_Place_of_match1
+    FOREIGN KEY (place_of_match_id)
+    REFERENCES place_of_match (place_of_match_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Match_Type_of_competition1
+    FOREIGN KEY (type_of_competition_id)
+    REFERENCES type_of_competition (type_of_competition_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_match_type_of_match1
+    FOREIGN KEY (type_of_match_id)
+    REFERENCES type_of_match (type_of_match_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_match_admin1
+    FOREIGN KEY (admin_id)
+    REFERENCES "admin" (admin_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_match_team1
+    FOREIGN KEY (team_id1)
+    REFERENCES team (team_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_match_team2
+    FOREIGN KEY (team_id2)
+    REFERENCES team (team_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+	
+CREATE UNIQUE INDEX idMatch_UNIQUE ON "match"(match_id ASC);
+CREATE INDEX fk_Match_Place_of_match1_idx ON place_of_match(place_of_match_id ASC);
+CREATE INDEX fk_Match_Type_of_competition1_idx ON type_of_competition (type_of_competition_id ASC);
+CREATE INDEX fk_match_type_of_match1_idx ON type_of_match (type_of_match_id ASC);
+CREATE INDEX fk_match_admin1_idx ON "admin" (admin_id ASC);
+CREATE INDEX fk_match_team1_idx ON "match" (team_id1 ASC);
+CREATE INDEX fk_match_team2_idx ON "match" (team_id2 ASC);
+
+DROP TABLE IF EXISTS match_has_winner;
+CREATE TABLE IF NOT EXISTS match_has_winner (
+  match_has_winner_id serial NOT NULL,
+  match_id INT NOT NULL,
+  team_id INT NOT NULL,
+  PRIMARY KEY (match_has_winner_id, match_id),
+  CONSTRAINT fk_match_has_winner_match2
+    FOREIGN KEY (match_id)
+    REFERENCES match (match_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+CREATE UNIQUE INDEX match_has_winner_id_UNIQUE ON match_has_winner(match_has_winner_id ASC);
+CREATE INDEX fk_match_has_winner_match2_idx ON "match" (match_id ASC);
