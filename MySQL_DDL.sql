@@ -657,3 +657,67 @@ INSERT INTO match_has_winner (match_id,team_id) VALUES (8,14);
 INSERT INTO match_has_winner (match_id,team_id) VALUES (9,12);
 INSERT INTO match_has_winner (match_id,team_id) VALUES (10,1);
 INSERT INTO match_has_winner (match_id,team_id) VALUES (10,14);
+
+-- player has position (poslední 2 hráči si na určitý čas vyměnili pozice) 
+INSERT INTO player_has_position (player_id, position_id) VALUES (1, 1);
+INSERT INTO player_has_position (player_id, position_id) VALUES (2, 4);
+INSERT INTO player_has_position (player_id, position_id) VALUES (3, 5);
+INSERT INTO player_has_position (player_id, position_id) VALUES (4, 2);
+INSERT INTO player_has_position (player_id, position_id) VALUES (5, 3);
+
+INSERT INTO player_has_position (player_id, position_id) VALUES (6, 1);
+INSERT INTO player_has_position (player_id, position_id) VALUES (7, 4);
+INSERT INTO player_has_position (player_id, position_id) VALUES (8, 5);
+INSERT INTO player_has_position (player_id, position_id) VALUES (9, 2);
+INSERT INTO player_has_position (player_id, position_id) VALUES (10, 3);
+
+INSERT INTO player_has_position (player_id, position_id) VALUES (11, 1);
+INSERT INTO player_has_position (player_id, position_id) VALUES (12, 4);
+INSERT INTO player_has_position (player_id, position_id) VALUES (13, 5);
+INSERT INTO player_has_position (player_id, position_id) VALUES (14, 2);
+INSERT INTO player_has_position (player_id, position_id) VALUES (15, 3);
+
+INSERT INTO player_has_position (player_id, position_id) VALUES (16, 1);
+INSERT INTO player_has_position (player_id, position_id, start_date, end_date) VALUES (17, 1, '2018-8-1','2021-5-1');
+INSERT INTO player_has_position (player_id, position_id, start_date, end_date) VALUES (17, 4, '2021-5-1',CURRENT_DATE);
+INSERT INTO player_has_position (player_id, position_id) VALUES (18, 5);
+INSERT INTO player_has_position (player_id, position_id) VALUES (19, 2);
+INSERT INTO player_has_position (player_id, position_id) VALUES (20, 3);
+
+INSERT INTO player_has_position (player_id, position_id) VALUES (21, 1);
+INSERT INTO player_has_position (player_id, position_id) VALUES (22, 4);
+INSERT INTO player_has_position (player_id, position_id) VALUES (23, 5);
+INSERT INTO player_has_position (player_id, position_id) VALUES (24, 2);
+INSERT INTO player_has_position (player_id, position_id) VALUES (25, 3);
+
+INSERT INTO player_has_position (player_id, position_id) VALUES (26, 1);
+INSERT INTO player_has_position (player_id, position_id) VALUES (27, 4);
+INSERT INTO player_has_position (player_id, position_id) VALUES (28, 5);
+INSERT INTO player_has_position (player_id, position_id) VALUES (29, 2);
+INSERT INTO player_has_position (player_id, position_id) VALUES (30, 3);
+
+INSERT INTO player_has_position (player_id, position_id) VALUES (31, 1);
+INSERT INTO player_has_position (player_id, position_id) VALUES (32, 4);
+INSERT INTO player_has_position (player_id, position_id) VALUES (33, 5);
+INSERT INTO player_has_position (player_id, position_id) VALUES (34, 2);
+INSERT INTO player_has_position (player_id, position_id) VALUES (35, 3);
+
+INSERT INTO player_has_position (player_id, position_id) VALUES (36, 1);
+INSERT INTO player_has_position (player_id, position_id) VALUES (37, 4);
+INSERT INTO player_has_position (player_id, position_id) VALUES (38, 5);
+INSERT INTO player_has_position (player_id, position_id) VALUES (39, 2);
+INSERT INTO player_has_position (player_id, position_id) VALUES (40, 3);
+
+INSERT INTO player_has_position (player_id, position_id) VALUES (41, 1);
+INSERT INTO player_has_position (player_id, position_id) VALUES (42, 4);
+INSERT INTO player_has_position (player_id, position_id) VALUES (43, 5);
+INSERT INTO player_has_position (player_id, position_id) VALUES (44, 2);
+INSERT INTO player_has_position (player_id, position_id) VALUES (45, 3);
+
+INSERT INTO player_has_position (player_id, position_id) VALUES (46, 1);
+INSERT INTO player_has_position (player_id, position_id) VALUES (47, 4);
+INSERT INTO player_has_position (player_id, position_id) VALUES (48, 5);
+INSERT INTO player_has_position (player_id, position_id) VALUES (49, 2);
+INSERT INTO player_has_position (player_id, position_id) VALUES (50, 3);
+
+

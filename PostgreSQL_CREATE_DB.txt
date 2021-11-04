@@ -110,7 +110,7 @@ CREATE INDEX fk_player_division1_idx ON division(division_id);
 CREATE TABLE IF NOT EXISTS type_of_trainer (
   type_of_trainer_id serial NOT NULL,
   "type" VARCHAR(45) NOT NULL,
-  note VARCHAR(60) NULL,
+  note VARCHAR(200) NULL,
   PRIMARY KEY (type_of_trainer_id));
 
 
